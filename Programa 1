@@ -1,0 +1,35 @@
+Programa 1 — Imprimir A usando desplazamientos/rotaciones
+
+section .data
+    char db 0
+    newline db 10
+
+section .text
+    global _start
+
+_start:
+    ; Queremos ASCII de 'A' = 65
+    mov al, 1
+    shl al, 6          ; 1 << 6 = 64
+    add al, 1          ; 64 + 1 = 65 ('A')
+
+    mov [char], al
+
+    ; imprimir
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, char
+    mov edx, 1
+    int 0x80
+
+    ; salto de línea
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, newline
+    mov edx, 1
+    int 0x80
+
+    ; salir
+    mov eax, 1
+    xor ebx, ebx
+    int 0x80
