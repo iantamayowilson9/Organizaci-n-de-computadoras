@@ -1,0 +1,34 @@
+Programa 3 — Imprimir g
+
+section .data
+    char db 0
+    newline db 10
+
+section .text
+    global _start
+
+_start:
+    ; ASCII 'g' = 103
+    mov al, 206        ; valor base
+    shr al, 1          ; 206 >> 1 = 103
+
+    mov [char], al
+
+    ; imprimir
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, char
+    mov edx, 1
+    int 0x80
+
+    ; salto de línea
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, newline
+    mov edx, 1
+    int 0x80
+
+    ; salir
+    mov eax, 1
+    xor ebx, ebx
+    int 0x80
