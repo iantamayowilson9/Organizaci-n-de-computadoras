@@ -1,0 +1,40 @@
+section .data
+    num1    db 5
+    num2    db 11
+    result  db 0
+    msg     db 'Resultado: ', 0
+
+section .bss
+    buffer  resb 4
+
+section .text
+    global _start
+
+_start:
+    ; --- Se mantiene la suma original ---
+    mov al, [num1]
+    add al, [num2]
+    mov [result], al
+
+    ; --- Aqui se reemplaza la conversión por escritura inmediata ---
+    ; Se escribir el carácter '@' directamente en la memoria (operando inmediato)
+    mov byte [buffer], '@'    ; modo inmediato: el operando es el valor literal '@'
+
+    ; Imprimir "Resultado: "
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, msg
+    mov edx, 11
+    int 0x80
+
+    ; Imprimir el carácter en buffer
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, buffer
+    mov edx, 1
+    int 0x80
+
+    ; Salir
+    mov eax, 1
+    xor ebx, ebx
+    int 0x80
