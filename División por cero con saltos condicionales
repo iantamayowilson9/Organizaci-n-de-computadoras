@@ -1,0 +1,67 @@
+Modifica el siguiente programa en ensamblador para poder manejar la división entre 0 utilizando solamente saltos condicionales. 
+One Compiler no permite un manejo de interrupciones en tiempo real, por lo que tendremos que simular su funcionamiento 
+(también puedes encontrar el código en anexos). Este código deberá estar en su repositorio de código
+
+section .data
+    msg_ok db "Resultado: ",0
+    msg_err db "Error: division por 0",10,0
+
+section .bss
+    outbuf resb 16
+
+section .text
+    global _start
+
+_start:
+    mov eax, 10        ; dividendo
+    mov ebx, 0         ; divisor (cambiar a 2 para ver resultado)
+    cmp ebx, 0
+    je div_by_zero     ; si ebx == 0 saltar al manejador
+
+    ; divisor != 0 -> realizar división
+    cdq                ; extender EAX a EDX:EAX para idiv
+    idiv ebx           ; EAX = EAX / EBX
+    ; convertir EAX a cadena simple (decimal) - rutina mínima
+    mov ecx, outbuf+15
+    mov byte [ecx], 0
+    mov ebx, 10
+.convert:
+    xor edx, edx
+    div ebx            ; divide EAX by 10, quotient in EAX, remainder in EDX
+    add dl, '0'
+    dec ecx
+    mov [ecx], dl
+    cmp eax, 0
+    jne .convert
+
+    ; imprimir mensaje y resultado
+    mov edx, msg_ok_len
+    mov ecx, msg_ok
+    mov ebx, 1
+    mov eax, 4
+    int 0x80
+
+    ; print number
+    mov edx, outbuf+15
+    sub edx, ecx
+    mov ecx, ecx
+    mov ebx, 1
+    mov eax, 4
+    int 0x80
+    jmp exit
+
+div_by_zero:
+    ; Simula manejo de interrupción por división entre cero
+    mov edx, 21
+    mov ecx, msg_err
+    mov ebx, 1
+    mov eax, 4
+    int 0x80
+
+exit:
+    mov eax, 1
+    xor ebx, ebx
+    int 0x80
+
+section .data
+msg_ok_len equ $-msg_ok
