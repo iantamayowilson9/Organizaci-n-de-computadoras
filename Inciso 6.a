@@ -1,0 +1,31 @@
+De acuerdo al código ensamblador anexo realiza lo siguiente:
+a. Modifica el código para que imprima los siguientes caracteres utilizando solo
+sumas:
+i. A
+ii. :
+iii. =
+iv. ?
+v. _
+
+section .data
+char db 0
+
+section .text
+global _start
+
+_start:
+mov al, '0' ; ASCII 48
+add al, 13 ; 48 + 13 = 61 → '='
+mov [char], al
+
+; Imprimir
+mov eax, 4
+mov ebx, 1
+mov ecx, char
+mov edx, 1
+int 0x80
+
+; Salir
+mov eax, 1
+xor ebx, ebx
+int 0x80
