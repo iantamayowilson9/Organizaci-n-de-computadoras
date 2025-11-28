@@ -1,0 +1,37 @@
+Explicar el funcionamiento de los siguientes códigos (1 snippet por diapositiva),
+identificando tópicos vistos en la clase de hoy. Como arreglos, macros, referencias,
+etc.
+%macro print_int 1
+mov eax, 4 ; syscall número 4: write
+mov ebx, 1 ; descriptor de archivo 1: stdout
+mov ecx, %1 ; dirección del dato a imprimir
+mov edx, 4 ; longitud: 4 bytes (entero)
+int 0x80 ; interrupción para ejecutar syscall
+%endmacro
+Esta macro imprime un entero en pantalla usando la llamada al sistema write. %1 es
+el argumento que se pasa al macro, normalmente la dirección del entero.
+
+section .data
+array dd 1, 2, 3, 4, 5
+Se define un arreglo de 5 enteros de 32 bits
+section .text
+global _start
+_start:
+mov ecx, 0 ; es el índice del arreglo
+mov eax, 0 ; acumulador para la suma
+Es el inicio del programa
+bucle:
+mov ebx, [array + ecx*4] ; carga array[ecx] en ebx
+add eax, ebx ; suma el valor al acumulador
+inc ecx ; incrementa el índice
+cmp ecx, 5
+jl bucle ; si ecx < 5, repite el bucle
+Es un bucle para sumar los elementos. Se recorre el arreglo sumando cada
+elemento en eax.
+print_int eax
+
+Es la impresion del resultado
+mov eax, 1 ; syscall número 1: exit
+xor ebx, ebx ; código de salida 0
+int 0x80 ; interrupción para terminar
+Es la salida del programa
