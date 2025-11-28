@@ -1,0 +1,17 @@
+Realizar un snippet de código que utilice los breakpoints en su IDE (En el
+lenguaje de su elección).
+// prog.c
+#include <stdio.h>
+int suma(int x, int y) {
+// BREAKPOINT 1: breakpoint en la función suma
+return x + y;
+}
+int main() {
+int a = 4;
+int b = 8;
+// BREAKPOINT 2: inspecciona a y b antes de llamar
+int c = suma(a, b);
+printf("c = %d\n", c);
+// BREAKPOINT 3: punto final antes de exit
+
+return 0; }
