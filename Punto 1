@@ -1,0 +1,52 @@
+1. Comparador de Números: Escribir un programa que reciba dos números y determine si son
+iguales, si uno es mayor que el otro, o si son negativos.
+Entrada: dos enteros
+Salida: saltos a rutinas que imprimen: Iguales, A > B, A < B, Alguno negativo
+
+; Asumimos: A en EAX, B en EBX
+
+; Primero se verifica si alguno es negativo usando la bandera de signo (SF)
+TEST_SIGN:
+MOV ECX, EAX
+OR ECX, EBX ; si alguno tiene bit de signo 1, SF se actualizará en la siguiente instrucción
+JS ALGUNO_NEGATIVO ; salta si signo negativo (SF = 1)
+
+; Comparación normal usando CMP y banderas
+COMPARE:
+CMP EAX, EBX
+JE IGUALES ; ZF = 1 -> iguales
+JG A_MAYOR_B ; SF ^ OF = 0 y ZF = 0 -> A > B
+JL A_MENOR_B ; A < B
+
+ALGUNO_NEGATIVO:
+; se imprime si "Alguno es negativo" o manejar caso
+; si se ocupa distinguir cuál, se comprueba individualmente
+TEST EAX, EAX
+JS A_NEGATIVO
+TEST EBX, EBX
+JS B_NEGATIVO
+JMP FIN
+
+A_NEGATIVO:
+; imprimir "A negativo"
+JMP FIN
+
+B_NEGATIVO:
+; imprimir "B negativo"
+JMP FIN
+
+IGUALES:
+
+; imprimir "Iguales"
+JMP FIN
+
+A_MAYOR_B:
+; imprimir "A > B"
+JMP FIN
+
+A_MENOR_B:
+; imprimir "A < B"
+JMP FIN
+
+FIN:
+; fin del programa
