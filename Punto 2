@@ -1,0 +1,56 @@
+Realiza un código en ensamblador x86 una estructura similar a x/x/x, para que pueda
+realizar una operación con cada uno de los elementos de X (Por ejemplo, sumar cada
+una de las X de la estructura, donde cada X es un número). Además, tu programa
+debe al menos usar un macro. No es necesario que se compile sin errores. Para el
+repositorio de código solo es necesario que subas el código de este punto en
+particular.
+Cada X es un número dentro de la estructura.
+
+section .data
+estructura db "5/7/3", 0 ; Cadena con números separados por '/'
+mensaje db "La suma es: ", 0 ; Mensaje inicial
+salto db 10, 0 ; Nueva línea
+section .bss
+buffer resb 4 ; Buffer para convertir número a texto
+suma resd 1 ; Variable para almacenar la suma
+—-----------Macro para imprimir cadenas—-----------------
+
+(Uso de PRINT_STRING etiqueta)
+%macro PRINT_STRING 1
+mov eax, 4 ; syscall write
+mov ebx, 1 ; file descriptor (stdout)
+mov ecx, %1 ; dirección de la cadena
+mov edx, 64 ; longitud máxima (ajustar según necesidad)
+int 0x80
+%endmacro
+section .text
+global _start
+_start:
+; Inicializar suma en 0
+mov dword [suma], 0
+; Imprimir mensaje inicial
+PRINT_STRING mensaje
+
+—-------------- Recorrer la estructura "x/x/x" —----------------
+mov esi, estructura ; apuntador a la cadena
+leer_caracter:
+lodsb ; cargar siguiente byte en AL
+cmp al, 0 ; fin de cadena?
+je fin_recorrido
+cmp al, '/' ; si es separador, saltar
+je leer_caracter
+; Convertir carácter ASCII a número
+sub al, '0' ; '5' -> 5
+movzx ebx, al ; extender a 32 bits
+; Sumar al acumulador
+add [suma], ebx
+jmp leer_caracter
+fin_recorrido:
+
+Aquí ya tenemos la suma en [suma]
+Nno se convierte a ASCII, solo se muestra un salto de línea como evidencia.
+PRINT_STRING salto
+; Terminar programa
+mov eax, 1 ; syscall exit
+mov ebx, 0 ; código de salida
+int 0x80
