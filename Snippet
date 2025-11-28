@@ -1,0 +1,36 @@
+Generar un snippet de código en ensamblador que simule el uso de un bloque
+de Try/Catch en ensamblador, utilizando saltos condicionales/incondicionales
+(No tiene que compilar):
+section .data
+ok_msg db "OK - try terminado", 0
+err_msg db "ERROR - catch ejecutado", 0
+
+section .text
+global _start
+
+_start:
+; -------- TRY (inicio) ----------
+mov eax, 10 ; resultado de una operación
+cmp eax, 10 ; condición de éxito
+je try_success ; si es igual -> éxito (salta dentro de TRY)
+; si no es igual -> simular excepción
+jmp catch ; ir al CATCH
+try_success:
+; Código "normal" del TRY (muy simple)
+; (por ejemplo: preparar mensaje OK)
+; --- (aquí iría el trabajo normal) ---
+jmp finally ; terminar TRY y pasar a FINALLY
+
+; -------- CATCH ----------
+catch:
+; Código de manejo de error (muy simple)
+; --- (aquí restaurar/limpiar si fuera necesario) ---
+jmp finally ; después del CATCH vamos siempre a FINALLY
+
+; -------- FINALLY ----------
+finally:
+; Código que siempre se ejecuta
+; (liberar recursos, cerrar, salir, etc.)
+mov eax, 1 ; syscall: exit (Linux int 0x80 style)
+mov ebx, 0
+int 0x80
