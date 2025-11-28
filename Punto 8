@@ -1,0 +1,12 @@
+8. Ciclo de Conteo sin Comparaciones: Implementar un contador de 0 a 9.
+MOV ECX, 10 ; 10 iteraciones (0..9)
+XOR AL, AL ; AL = 0 (valor inicial)
+
+CONTAR:
+; imprimir AL (valor actual)
+INC AL ; AL = AL + 1
+
+LOOP CONTAR ; decrementa ECX y salta si ECX != 0
+
+; al terminar AL = 10, se han mostrado 0..9
+; fin
