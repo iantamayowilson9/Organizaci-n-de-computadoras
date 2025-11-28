@@ -1,0 +1,13 @@
+7. Ordenamiento de Dos Números
+Leer dos números e intercambiarlos si no están en orden ascendente usando solo saltos
+condicionales.
+Entrada: A en EAX, B en EBX
+Salida: A <= B (si no, se intercambian)
+
+CMP EAX, EBX
+JLE YA_ORDENADOS ; si EAX <= EBX no hacer nada
+; si EAX > EBX -> intercambiar
+XCHG EAX, EBX
+YA_ORDENADOS:
+; ahora EAX <= EBX
+; imprimir o continuar
