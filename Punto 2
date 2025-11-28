@@ -1,0 +1,22 @@
+2. Clasificación de Números: Leer un número y clasificarlo como positivo, negativo o cero.
+Entrada: un entero en EAX
+Salida: Positivo, Negativo o Cero
+
+; EAX contiene el número
+TEST EAX, EAX
+JZ ES_CERO ; ZF = 1 -> cero
+JS ES_NEGATIVO ; SF = 1 -> negativo
+; si no ZF ni SF -> positivo
+ES_POSITIVO:
+; imprimir "Positivo"
+JMP FIN
+
+ES_NEGATIVO:
+; imprimir "Negativo"
+JMP FIN
+
+ES_CERO:
+; imprimir "Cero"
+JMP FIN
+
+FIN:
