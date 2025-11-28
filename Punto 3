@@ -1,0 +1,45 @@
+3. Generar un fragmento de código en ensamblador x86 (No es necesario que
+compile correctamente), para los bloques section .data, section .text y _start:
+que impliquen el uso de un salto condicional en ensamblador. El entregable en
+esta práctica sería el fragmento de código, agregando comentarios de su
+funcionamiento. El entregable de este taller para su repositorio sería solamente
+este fragmento de código.
+
+section .data
+valor1 db 5 ; Primer valor a comparar
+valor2 db 5 ; Segundo valor a comparar
+mensajeIgual db 'Son iguales', 0Ah
+mensajeDistinto db 'Son distintos', 0Ah
+
+section .text
+global _start
+
+_start:
+; Cargar los valores en registros
+mov al, [valor1] ; AL ← valor1
+cmp al, [valor2] ; Comparar AL con valor2
+
+; Si son iguales, saltar a etiqueta 'iguales'
+je iguales ; Salta si AL == valor2
+
+; Si no son iguales, ejecutar este bloque
+mov edx, 13 ; Longitud del mensaje "Son distintos"
+mov ecx, mensajeDistinto
+mov ebx, 1 ; stdout
+mov eax, 4 ; syscall: write
+int 0x80
+jmp fin ; Saltar al final
+
+iguales:
+; Bloque si los valores son iguales
+mov edx, 12 ; Longitud del mensaje "Son iguales"
+mov ecx, mensajeIgual
+mov ebx, 1 ; stdout
+mov eax, 4 ; syscall: write
+int 0x80
+
+fin:
+; Terminar el programa
+mov eax, 1 ; syscall: exit
+xor ebx, ebx ; Código de salida 0
+int 0x80
