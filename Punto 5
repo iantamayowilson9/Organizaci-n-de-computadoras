@@ -1,0 +1,18 @@
+5. Simulación de Acarreo: Realizar una suma entre dos números y verificar si hay un acarreo con
+la bandera CF (Carry Flag). Mostrar si se generó un acarreo o no.
+Entrada: dos enteros sin signo en EAX y EBX
+Salida: indicar si hubo acarreo (carry)
+
+; A en EAX, B en EBX
+MOV ECX, EAX
+ADD ECX, EBX ; CF se actualiza si hay carry fuera del tamaño
+JC HAY_ACARREO ; JC salta si CF = 1
+; no carry
+; imprimir "No hay acarreo"
+JMP FIN
+
+HAY_ACARREO:
+; imprimir "Se generó acarreo"
+JMP FIN
+
+FIN:
