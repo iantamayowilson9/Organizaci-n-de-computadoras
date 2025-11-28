@@ -1,0 +1,87 @@
+6. Mínimo y Máximo de Tres Números: Leer tres números e identificar el menor y el mayor.
+Entrada: A en EAX, B en EBX, C en ECX
+
+Salida: MIN y MAX en registros o impresos
+
+; Inicializar supuestos
+MOV EDX, EAX ; EDX = candidato MAX
+MOV ESI, EAX ; ESI = candidato MIN
+
+; Comparar B con candidatos
+CMP EBX, EDX
+JG B_MAYOR_QUE_MAX
+; EBX <= EDX
+CMP EBX, ESI
+JL B_MENOR_QUE_MIN
+JMP CONT1
+
+B_MAYOR_QUE_MAX:
+MOV EDX, EBX
+JMP CONT1
+
+B_MENOR_QUE_MIN:
+MOV ESI, EBX
+
+CONT1:
+; Comparar C con candidatos
+CMP ECX, EDX
+JG C_MAYOR_QUE_MAX
+CMP ECX, ESI
+JL C_MENOR_QUE_MIN
+JMP FIN
+
+C_MAYOR_QUE_MAX:
+MOV EDX, ECX
+
+JMP FIN
+
+C_MENOR_QUE_MIN:
+MOV ESI, ECX
+JMP FIN
+
+FIN:
+; EDX contiene MAX, ESI contiene MIN
+; imprimir ESI como menor y EDX como mayor
+Entrada: A en EAX, B en EBX, C en ECX
+
+Salida: MIN y MAX en registros o impresos
+
+; Inicializar supuestos
+MOV EDX, EAX ; EDX = candidato MAX
+MOV ESI, EAX ; ESI = candidato MIN
+
+; Comparar B con candidatos
+CMP EBX, EDX
+JG B_MAYOR_QUE_MAX
+; EBX <= EDX
+CMP EBX, ESI
+JL B_MENOR_QUE_MIN
+JMP CONT1
+
+B_MAYOR_QUE_MAX:
+MOV EDX, EBX
+JMP CONT1
+
+B_MENOR_QUE_MIN:
+MOV ESI, EBX
+
+CONT1:
+; Comparar C con candidatos
+CMP ECX, EDX
+JG C_MAYOR_QUE_MAX
+CMP ECX, ESI
+JL C_MENOR_QUE_MIN
+JMP FIN
+
+C_MAYOR_QUE_MAX:
+MOV EDX, ECX
+
+JMP FIN
+
+C_MENOR_QUE_MIN:
+MOV ESI, ECX
+JMP FIN
+
+FIN:
+; EDX contiene MAX, ESI contiene MIN
+; imprimir ESI como menor y EDX como mayor
