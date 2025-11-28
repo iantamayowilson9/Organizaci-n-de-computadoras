@@ -1,0 +1,19 @@
+4. Simulación de Overflow: Pedir dos números y sumarlos, verificando si ocurre desbordamiento
+con la bandera OF (Overflow Flag). Imprimir un mensaje si se detecta overflow.
+Entrada: dos enteros con signo en EAX y EBX
+Salida: mensaje si ocurrió overflow en la suma
+
+; A en EAX, B en EBX
+MOV ECX, EAX
+ADD ECX, EBX ; ECX = A + B, OF se actualiza
+
+JO HAY_OVERFLOW ; JO salta si OF = 1
+; no overflow
+; se imprime "Suma sin overflow"
+JMP FIN
+
+HAY_OVERFLOW:
+; se imprime "Overflow detectado"
+JMP FIN
+
+FIN:
