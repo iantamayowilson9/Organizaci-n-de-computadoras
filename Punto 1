@@ -1,0 +1,27 @@
+Compila el código del siguiente enlace: https://onecompiler.com/assembly/4458pwk48
+documenta en tu taller mediante comentarios en el código el funcionamiento del
+programa.
+
+section .data
+message db "La suma de los valores es: ", 0 ; Cadena a imprimir
+newline db 10, 0 ; Carácter de nueva línea (ASCII 10)
+section .bss
+buffer resb 4 ; Reserva 4 bytes para convertir números a texto
+section .text
+global _start ; Punto de entrada del programa
+_start:
+
+—----------------- 1. Imprimir el mensaje inicial —---------------
+La macro PRINT_STRING se encarga de llamar a la syscall write (eax=4) para mostrar la
+cadena en pantalla.
+PRINT_STRING message
+—----------- -2. Imprimir la suma de los valores —----------------------
+La macro PRINT_SUM calcula la suma de los números definidos en la plantilla y la convierte
+a ASCII usando el buffer reservado en .bss.
+PRINT_SUM
+
+—------------ 3. Terminar el programa —-----------------------
+Se invoca la syscall exit (eax=1) con código de salida 0
+mov eax, 1 ; Syscall: exit
+mov ebx, 0 ; Código de salida (0 = correcto)
+int 0x80 ; Interrupción para ejecutar la syscall
