@@ -1,0 +1,19 @@
+3. Par o Impar: Leer un número y determinar si es par o impar usando únicamente la bandera
+de paridad (PF).
+
+; Número en EAX. Se usa AL
+MOV AL, AL ; se asegura que trabajamos con AL
+AND AL, 1 ; AL = AL & 1 -> AL = 0 si par, 1 si impar
+; ahora PF = 1 si AL tiene paridad par (AL=0 -> 0 bits -> PF=1)
+JP ES_PAR ; JP salta si PF = 1
+; si no, PF = 0 -> impar
+
+ES_IMPAR:
+; imprimir "Impar"
+JMP FIN
+
+ES_PAR:
+; imprimir "Par"
+JMP FIN
+
+FIN:
